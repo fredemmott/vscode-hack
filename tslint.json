@@ -24,6 +24,12 @@
     "interface-name": false,
     "no-octal-literal": false,
     "no-empty": false,
-    "no-suspicious-comment": false
+    "no-suspicious-comment": false,
+    "variable-name": [
+      true,
+      "check-format",
+      "allow-leading-underscore",
+      "ban-keywords"
+    ]
   }
 }

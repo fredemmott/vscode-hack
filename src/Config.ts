@@ -32,3 +32,6 @@ if (useLanguageServerConfig === undefined) {
     useLanguageServerConfig = true;
 }
 export const useLanguageServer: boolean = useLanguageServerConfig;
+
+export const disableLinter: boolean = hackConfig.get('lint.disable') || false;
+export const linterPath: string | undefined = hackConfig.get('lint.path');

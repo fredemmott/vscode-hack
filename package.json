@@ -191,6 +191,13 @@
           "type": "boolean",
           "default": true,
           "description": "Start hh_client in Language Server mode. Only works for HHVM version 3.23 and above."
+        },
+        "hack.lint.disable": {
+          "type": "boolean",
+          "default": false
+        },
+        "hack.lint.path": {
+          "type": "string"
         }
       }
     },

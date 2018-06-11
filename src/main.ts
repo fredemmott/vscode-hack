@@ -6,6 +6,7 @@ import * as vscode from 'vscode';
 import { LanguageClient } from 'vscode-languageclient';
 import * as config from './Config';
 import { HackCoverageChecker } from './coveragechecker';
+import { HackLinter } from './linter';
 import * as providers from './providers';
 import * as hh_client from './proxy';
 import * as suppressions from './suppressions';
@@ -25,7 +26,12 @@ export async function activate(context: vscode.ExtensionContext) {
 
     // create coverage checker and run on file open & save, if enabled in settings
     if (config.enableCoverageCheck) {
-        await new HackCoverageChecker().start(context);
+        new HackCoverageChecker().start(context);
+    }
+
+    // create linter and run on file open & save, if enabled in settings
+    if (!config.disableLinter) {
+        new HackLinter().start(context);
     }
 
     if (version.api_version >= 5 && config.useLanguageServer) {
