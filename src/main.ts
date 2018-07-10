@@ -23,11 +23,6 @@ export async function activate(context: vscode.ExtensionContext) {
         return;
     }
 
-    // create coverage checker and run on file open & save, if enabled in settings
-    if (config.enableCoverageCheck) {
-        await new HackCoverageChecker().start(context);
-    }
-
     if (version.api_version >= 5 && config.useLanguageServer) {
         const languageClient = new LanguageClient(
             'Hack Language Server',
@@ -37,6 +32,11 @@ export async function activate(context: vscode.ExtensionContext) {
                 uriConverters: { code2Protocol: utils.mapFromWorkspaceUri, protocol2Code: utils.mapToWorkspaceUri },
                 initializationOptions: { useTextEditAutocomplete: true }
             });
+        languageClient.onReady().then(async () => {
+            if (config.enableCoverageCheck && languageClient.initializeResult && (<any>languageClient.initializeResult.capabilities).typeCoverageProvider) {
+                await new HackCoverageChecker(languageClient).start(context);
+            }
+        });
         context.subscriptions.push(languageClient.start());
         return;
     }
